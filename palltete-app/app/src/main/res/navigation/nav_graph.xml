@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/registrationFragment">
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.pallete.screens.registration.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_feedFragment"
+            app:destination="@id/gallery_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gallery_fragment"
+        android:name="com.example.pallete.screens.feed.FeedFragment"
+        android:label="fragment_feed"
+        tools:layout="@layout/fragment_feed" >
+        <action
+            android:id="@+id/action_feedFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.example.pallete.screens.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/idea_service_fragment"
+        android:name="com.example.pallete.screens.ideaservice.IdeaServiceFragment"
+        android:label="fragment_idea_service"
+        tools:layout="@layout/fragment_idea_service" >
+        <action
+            android:id="@+id/action_ideaServiceFragment_to_ideaFragment2"
+            app:destination="@id/ideaFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.example.pallete.screens.postdetail.PostDetailFragment"
+        android:label="fragment_post_detail"
+        tools:layout="@layout/fragment_post_detail" >
+        <action
+            android:id="@+id/action_postDetailFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.pallete.screens.profileedit.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.example.pallete.screens.postedit.EditPostFragment"
+        android:label="fragment_edit_post"
+        tools:layout="@layout/fragment_edit_post" />
+    <fragment
+        android:id="@+id/editIdeaFragment"
+        android:name="com.example.pallete.screens.ideaedit.EditIdeaFragment"
+        android:label="fragment_edit_idea"
+        tools:layout="@layout/fragment_edit_idea" />
+    <fragment
+        android:id="@+id/ideaFragment2"
+        android:name="com.example.pallete.screens.idea.IdeaFragment"
+        android:label="fragment_idea"
+        tools:layout="@layout/fragment_idea" >
+        <action
+            android:id="@+id/action_ideaFragment2_to_editIdeaFragment"
+            app:destination="@id/editIdeaFragment" />
+    </fragment>
+</navigation>

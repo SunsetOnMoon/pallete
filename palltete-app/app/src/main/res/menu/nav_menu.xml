@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_fragment" android:title="My Profile"/>
+    <item
+        android:id="@+id/gallery_fragment" android:title="Gallery"/>
+    <item
+        android:id="@+id/idea_service_fragment" android:title="Idea Service"/>
+    <item
+        android:id="@+id/settings_fragment" android:title="Settings"/>
+    <item
+        android:id="@+id/exit" android:title="Exit"/>
+</menu>
