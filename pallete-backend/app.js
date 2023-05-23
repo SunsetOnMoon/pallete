@@ -69,15 +69,16 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 // Add new user
-app.post('/api/users', (req, res) => {
-    const {name, description, subscribers, subscriptions, password} = req.body;
-    connection.query('INSERT INTO users (name, description, subscribers, subscriptions, password) VALUES (?, ?, ?, ?, ?)', [name, description, subscribers, subscriptions, password], (err, result) => {
+app.post('/api/users/register', (req, res) => {
+    const {name, email, password} = req.body;
+    connection.query('INSERT INTO users (name, description, subscribers, subscriptions, password, email) VALUES (?, ?, ?, ?, ?, ?)', [name, "", 0, 0, password, email], (err, result) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
             const insertedUserId = result.insertId;
-            res.json({id: insertedUserId, name, description, subscribers, subscriptions, password});
+            console.log(result.insertId);
+            res.json({userId: insertedUserId, name: name, description: '', subscribers: '0', subscriptions: '0', password: password, email: email});
         }
     });
 });
@@ -86,7 +87,7 @@ app.post('/api/users', (req, res) => {
 //delete user by id
 app.delete('/api/users/:id', (req, res) => {
     const userId = req.params.id;
-    connection.query('DELETE FROM users WHERE id = ?', [userId], (err, result) => {
+    connection.query('DELETE FROM users WHERE userId = ?', [userId], (err, result) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
@@ -96,16 +97,44 @@ app.delete('/api/users/:id', (req, res) => {
     });
 });
 
-//update user by id
-app.put('/api/users/:id', (req, res) => {
-    const userId = req.params.id;
-    const {name, description, subscribers, subscriptions, password} = req.body;
-    connection.query('UPDATE users SET name = ?, description = ?, subscribers = ?, subscriptions = ?, password = ? WHERE id = ?', [name, description, subscribers, subscriptions, password, userId], (err, result) => {
+app.post('/api/users/valid', (req, res) => {
+    const {name, password} = req.body;
+    console.log(name, password);
+    connection.query('SELECT * FROM users WHERE BINARY name = ? AND password = ?', [name, password], (err, results) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
-            res.sendStatus(200);
+            if (results.length === 0) {
+                console.log("User not found");
+                res.status(401).json({error: 'Пользователь не найден или неверный пароль'})
+            } else {
+                console.log(results);
+                res.json(results[0]);
+            }
+        }
+    })
+})
+
+//update user by id
+app.put('/api/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const {name, description, subscribers, subscriptions, password} = req.body;
+    connection.query('UPDATE users SET name = ?, description = ? WHERE userId = ?', [name, description, userId], (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+            res.status(500).send('Ошибка сервера');
+        } else {
+            console.log(result)
+            connection.query('SELECT * FROM users WHERE userId=?', [userId], (err, result) => {
+                if (err) {
+                    console.error('Ошибка выполнения запроса:', err);
+                    res.status(500).send('Ошибка сервера');
+                } else {
+                    console.log(result)
+                    res.json(result[0])
+                }
+            })
         }
     });
 });
@@ -214,7 +243,7 @@ app.get('/api/ideas', (req, res) => {
             console.error('Ошибка при выполнении запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
-            res.json(results);
+            res.json({results});
         }
     });
 });
@@ -222,7 +251,7 @@ app.get('/api/ideas', (req, res) => {
 //get idea by id
 app.get('/api/ideas/:id', (req, res) => {
     const ideaId = req.params.id;
-    connection.query('SELECT * FROM ideas WHERE id = ?', [ideaId], (err, results) => {
+    connection.query('SELECT * FROM ideas WHERE ideaId = ?', [ideaId], (err, results) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
@@ -245,7 +274,7 @@ app.post('/api/ideas', (req, res) => {
             res.status(500).send('Ошибка сервера');
         } else {
             const insertedIdeaId = result.insertId;
-            res.json({id: insertedIdeaId, name, description, topicId, userId});
+            res.json({ideaId: insertedIdeaId, name, description, topicId, userId});
         }
     });
 });
@@ -263,6 +292,19 @@ app.delete('/api/ideas/:id', (req, res) => {
         }
     });
 });
+
+//get user idea
+app.get("/api/ideas/user/:id", (req, res) => {
+    const userId = req.params.id;
+    connection.query('SELECT * FROM ideas WHERE userId=?', [userId], (err, results) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+        } else {
+            console.log(results);
+            res.send(results);
+        }
+    })
+})
 
 //update idea by id
 // app.put('/api/ideas/:id', (req, res) => {
