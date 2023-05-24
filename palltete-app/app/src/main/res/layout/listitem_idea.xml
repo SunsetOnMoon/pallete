@@ -28,81 +28,27 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.4"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
-                android:id="@+id/btn_open"
-                android:layout_width="50dp"
-                android:layout_height="41dp"
-                android:layout_marginEnd="20dp"
+                android:id="@+id/btn_close"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="0dp"
                 android:clickable="true"
-                android:src="@drawable/icon_right_arrow"
+                android:src="@drawable/icon_close"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/txt_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.3"
+                app:layout_constraintHeight_percent="0.5"
                 android:focusable="true" />
-
-            <TextView
-                android:id="@+id/txt_attempts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="Attempts:"
-                android:textStyle="bold"
-                android:textColor="@color/text_green"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@id/txt_name"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_attempts_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                tools:text="111"
-                android:textStyle="bold"
-                android:textColor="@color/text_green"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@id/txt_name"
-                app:layout_constraintStart_toEndOf="@id/txt_attempts" />
-
-            <TextView
-                android:id="@+id/txt_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="Rate:"
-                android:textStyle="bold"
-                android:textColor="@color/text_green"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@id/txt_name"
-                app:layout_constraintStart_toEndOf="@id/txt_attempts_count" />
-
-            <TextView
-                android:id="@+id/txt_rate_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                tools:text="9.5"
-                android:textStyle="bold"
-                android:textColor="@color/text_green"
-                android:textSize="25sp"
-                app:layout_constraintTop_toBottomOf="@id/txt_name"
-                app:layout_constraintStart_toEndOf="@id/txt_rate" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                app:layout_constraintTop_toBottomOf="@id/txt_attempts"
+                app:layout_constraintTop_toBottomOf="@id/txt_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

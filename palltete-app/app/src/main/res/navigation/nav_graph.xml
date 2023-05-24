@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/registrationFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/registrationFragment"
@@ -11,7 +11,7 @@
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_feedFragment"
+            android:id="@+id/action_registrationFragment_to_gallery_fragment"
             app:destination="@id/gallery_fragment" />
     </fragment>
     <fragment
@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_ideaServiceFragment_to_ideaFragment2"
             app:destination="@id/ideaFragment2" />
+        <action
+            android:id="@+id/action_idea_service_fragment_to_editIdeaFragment"
+            app:destination="@id/editIdeaFragment" />
     </fragment>
     <fragment
         android:id="@+id/postDetailFragment"
@@ -57,7 +60,11 @@
         android:id="@+id/editProfileFragment"
         android:name="com.example.pallete.screens.profileedit.EditProfileFragment"
         android:label="fragment_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/editPostFragment"
         android:name="com.example.pallete.screens.postedit.EditPostFragment"
@@ -72,9 +79,16 @@
         android:id="@+id/ideaFragment2"
         android:name="com.example.pallete.screens.idea.IdeaFragment"
         android:label="fragment_idea"
-        tools:layout="@layout/fragment_idea" >
+        tools:layout="@layout/fragment_idea" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.pallete.screens.login.LoginFragment"
+        android:label="LoginFragment" >
         <action
-            android:id="@+id/action_ideaFragment2_to_editIdeaFragment"
-            app:destination="@id/editIdeaFragment" />
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_gallery_fragment"
+            app:destination="@id/gallery_fragment" />
     </fragment>
 </navigation>

@@ -63,38 +63,6 @@
         app:layout_constraintTop_toBottomOf="@id/txt_name"/>
 
     <TextView
-        android:id="@+id/txt_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Email:"
-        android:layout_marginStart="50dp"
-        android:textStyle="bold"
-        android:textColor="@color/text_green"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/te_name"/>
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/te_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:inputType="textEmailAddress"
-        android:paddingTop="0dp"
-        android:layout_marginEnd="50dp"
-        tools:text="Email"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:backgroundTint="@color/text_green"
-        app:boxStrokeWidth="4dp"
-        app:boxStrokeWidthFocused="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_email"/>
-
-    <TextView
         android:id="@+id/txt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,7 +74,7 @@
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/te_email"/>
+        app:layout_constraintTop_toBottomOf="@id/te_name"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/te_password"
@@ -126,45 +94,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_password"/>
 
-    <TextView
-        android:id="@+id/txt_rep_password"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Repeat password:"
-        android:layout_marginStart="50dp"
-        android:textStyle="bold"
-        android:textColor="@color/text_green"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/te_password"/>
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/te_rep_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:inputType="textPassword"
-        android:paddingTop="0dp"
-        android:layout_marginEnd="50dp"
-        tools:text="Password"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:backgroundTint="@color/text_green"
-        app:boxStrokeWidth="4dp"
-        app:boxStrokeWidthFocused="6dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="Registration"
+        android:textAllCaps="false"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_signin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_rep_password"/>
-
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_signin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/text_green"
-        android:text="Register"
+        android:text="Sign in"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="25dp"
         android:layout_marginEnd="15dp"
@@ -187,6 +137,6 @@
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_register"
+        app:layout_constraintStart_toEndOf="@id/btn_signin"
         app:layout_constraintWidth="0.4"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

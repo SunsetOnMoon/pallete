@@ -14,7 +14,7 @@
         android:layout_marginTop="90dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/avatar"/>
+        android:src="@drawable/avatar"/>
 
     <TextView
         android:id="@+id/txt_name"
@@ -51,7 +51,7 @@
         android:textSize="24sp"
         android:textColor="@color/text_green"
         android:textStyle="bold"
-        tools:text="Subscriptions"
+        android:text="Subscriptions"
         app:layout_constraintTop_toBottomOf="@id/txt_name"
         app:layout_constraintStart_toEndOf="@id/img_avatar"/>
 
@@ -77,7 +77,7 @@
         android:textSize="24sp"
         android:textColor="@color/text_green"
         android:textStyle="bold"
-        tools:text="Subscribers"
+        android:text="Subscribers"
         app:layout_constraintTop_toBottomOf="@id/txt_subscriptions"
         app:layout_constraintStart_toEndOf="@id/img_avatar"/>
 

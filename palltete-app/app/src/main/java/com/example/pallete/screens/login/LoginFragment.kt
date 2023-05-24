@@ -1,4 +1,4 @@
-package com.example.pallete.screens.profileedit
+package com.example.pallete.screens.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,11 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.pallete.MAIN
 import com.example.pallete.R
-import com.example.pallete.databinding.FragmentEditProfileBinding
+import com.example.pallete.databinding.FragmentLoginBinding
 
-class EditProfileFragment : Fragment() {
-    lateinit var binding: FragmentEditProfileBinding
-    private lateinit var viewModel: EditProfileViewModel
+class LoginFragment : Fragment() {
+    lateinit var binding: FragmentLoginBinding
+    private lateinit var viewModel: LoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -23,28 +24,31 @@ class EditProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentEditProfileBinding.inflate(layoutInflater, container, false)
+        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[EditProfileViewModel::class.java]
 
-        viewModel.updatedUser.observe(viewLifecycleOwner, Observer {
-            MAIN.navController.navigate(R.id.action_editProfileFragment_to_profile_fragment)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            MAIN.navController.navigate(R.id.action_loginFragment_to_gallery_fragment)
         })
 
         binding.teName.doOnTextChanged { text, start, before, count ->
             viewModel.onEditName(text.toString())
         }
-        binding.teDescription.doOnTextChanged { text, start, before, count ->
-            viewModel.onEditDescription(text.toString())
+        binding.tePassword.doOnTextChanged { text, start, before, count ->
+            viewModel.onEditPassword(text.toString())
         }
-        binding.btnEdit.setOnClickListener {
-            viewModel.edit()
+        binding.btnRegistration.setOnClickListener {
+            MAIN.navController.navigate(R.id.action_loginFragment_to_registrationFragment)
         }
 
+        binding.btnSignin.setOnClickListener {
+            viewModel.signIn()
+        }
     }
 }
