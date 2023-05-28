@@ -1,6 +1,11 @@
 package com.example.pallete.retrofitservices
 
+import com.example.pallete.models.Comment
 import com.example.pallete.models.idea.Idea
+import com.example.pallete.models.post.Post
+import com.example.pallete.models.post.PostSearch
+import com.example.pallete.models.post.PostUpdate
+import com.example.pallete.models.topic.Topic
 import com.example.pallete.models.user.LoginUser
 import com.example.pallete.models.user.User
 import com.example.pallete.models.user.UserRegister
@@ -31,5 +36,24 @@ interface RetrofitServices {
     fun getUserIdeas(@Path("id") userId: Int): Call<List<Idea>>
 
 
+    //-------------------------POSTS----------------------------------------
+    @GET("/api/posts")
+    fun getAllPosts(): Call<List<Post>>
 
+    @GET("/api/posts/user/{id}")
+    fun getUserPosts(@Path("id") userId: Int): Call<List<Post>>
+
+    @POST("/api/posts/search")
+    fun searchPosts(@Body postSearch: PostSearch = PostSearch()): Call<List<Post>>
+
+    @PUT("/api/posts/{id}")
+    fun updatePost(@Path("id") postId: Int, @Body postUpdate: PostUpdate) : Call<Post>
+
+    //-------------------------COMMENTS--------------------------------------
+    @GET("/api/comments/post/{id}")
+    fun getPostComments(@Path("id") postId: Int): Call<List<Comment>>
+
+    //-------------------------TOPICS----------------------------------------
+    @GET("/api/topics")
+    fun getTopics(): Call<List<Topic>>
 }

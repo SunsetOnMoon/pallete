@@ -104,6 +104,7 @@
         app:endIconDrawable="@drawable/popup_menu"
         app:endIconTint="@color/text_green">
         <AutoCompleteTextView
+            android:id="@+id/atv_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -146,5 +147,7 @@
         app:layout_constraintWidth_percent="0.4"
         app:layout_constraintStart_toEndOf="@id/btn_edit"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <include layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

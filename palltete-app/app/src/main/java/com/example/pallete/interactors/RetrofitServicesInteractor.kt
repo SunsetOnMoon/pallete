@@ -1,6 +1,9 @@
 package com.example.pallete.interactors
 
+import com.example.pallete.models.Comment
 import com.example.pallete.models.idea.Idea
+import com.example.pallete.models.post.Post
+import com.example.pallete.models.topic.Topic
 import com.example.pallete.models.user.User
 import com.example.pallete.models.user.UserRegister
 import io.reactivex.rxjava3.core.Single
@@ -13,4 +16,13 @@ interface RetrofitServicesInteractor {
     fun updateUser(id: Int, name: String, description: String): Single<User>
 
     fun getUserIdeas(userId: Int): Single<List<Idea>>
+
+    fun getAllPosts(): Single<List<Post>>
+    fun getUserPosts(authorId: Int): Single<List<Post>>
+    fun updatePost(postId: Int, title: String, description: String?, ideaId: Int?, topicId: Int): Single<Post>
+    fun searchPosts(query: String) : Single<List<Post>>
+
+    fun getPostComments(postId: Int): Single<List<Comment>>
+
+    fun getTopics(): Single<List<Topic>>
 }

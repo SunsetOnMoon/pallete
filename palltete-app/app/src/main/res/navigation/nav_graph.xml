@@ -50,11 +50,17 @@
     <fragment
         android:id="@+id/postDetailFragment"
         android:name="com.example.pallete.screens.postdetail.PostDetailFragment"
-        android:label="fragment_post_detail"
+        android:label="Post Detail"
         tools:layout="@layout/fragment_post_detail" >
         <action
             android:id="@+id/action_postDetailFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_postDetailFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+        <action
+            android:id="@+id/action_postDetailFragment_to_gallery_fragment"
+            app:destination="@id/gallery_fragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -68,8 +74,12 @@
     <fragment
         android:id="@+id/editPostFragment"
         android:name="com.example.pallete.screens.postedit.EditPostFragment"
-        android:label="fragment_edit_post"
-        tools:layout="@layout/fragment_edit_post" />
+        android:label="Post Edit"
+        tools:layout="@layout/fragment_edit_post" >
+        <action
+            android:id="@+id/action_editPostFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editIdeaFragment"
         android:name="com.example.pallete.screens.ideaedit.EditIdeaFragment"

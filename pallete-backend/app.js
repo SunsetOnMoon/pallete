@@ -4,6 +4,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
+const ImageKit = require('imagekit');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -22,19 +23,26 @@ connection.connect((err) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'pictures/');
+        cb(null, 'pictures');
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const fileExtension = path.extname(file.originalname);
-        cb(null, uniqueSuffix + fileExtension);
+        cb(null, file.fieldname + uniqueSuffix + fileExtension);
     }
 });
 
-const upload = multer({storage});
+const imageKit = new ImageKit({
+    publicKey: "public_NK8osLpngLeDnSnYZSCBa/ksnmg=",
+    privateKey: "private_pEtU4cRBoC6xJl0gwqILMKfZ0Po=",
+    urlEndpoint: "https://ik.imagekit.io/2mv7ms7yh"
+})
 
-app = express();
-app.use(express.static(__dirname + "/pictures"));
+const upload = multer({ storage: storage })
+// const upload = multer({dest: "/pictures"});
+
+const app = express();
+// app.use(express.static(__dirname + "/pictures"));
 app.use(bodyParser.json())
 
 
@@ -54,7 +62,7 @@ app.get('/api/users', (req, res) => {
 //get user by id
 app.get('/api/users/:id', (req, res) => {
     const userId = req.params.id;
-    connection.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
+    connection.query('SELECT * FROM users WHERE userId = ?', [userId], (err, results) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
@@ -62,6 +70,7 @@ app.get('/api/users/:id', (req, res) => {
             if (results.length === 0) {
                 res.status(404).send('Пользователь не найден');
             } else {
+                console.log(results[0]);
                 res.json(results[0]);
             }
         }
@@ -156,7 +165,7 @@ app.get('/api/posts', (req, res) => {
 //get user by id
 app.get('/api/posts/:id', (req, res) => {
     const postId = req.params.id;
-    connection.query('SELECT * FROM posts WHERE id = ?', [postId], (err, results) => {
+    connection.query('SELECT * FROM posts WHERE postId = ?', [postId], (err, results) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
@@ -170,20 +179,78 @@ app.get('/api/posts/:id', (req, res) => {
     });
 });
 
+app.get('/api/posts/user/:id', (req, res) => {
+    const userId = req.params.id
+    connection.query('SELECT * FROM posts WHERE authorId = ?', [userId], (err, results) => {
+       if (err) {
+           console.error('Ошибка выполнения запроса:', err);
+           res.status(500).send('Ошибка сервера')
+       } else {
+           if (results.length === 0) {
+               res.status(404).send('Пользователь не найден');
+           } else {
+               res.json(results);
+           }
+       }
+    });
+});
+
+app.post('/api/posts/search', (req, res) => {
+    console.log(req.body)
+    const {searchTerm} = req.body;
+    console.log(searchTerm);
+    const query = 'SELECT * FROM posts WHERE title LIKE ' + '\'' + '%' + searchTerm + '%\''
+    console.log(query);
+    connection.query(query, (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+        } else {
+            console.log(result);
+            res.json(result);
+        }
+    })
+
+})
+
 // Add new post
 app.post('/api/posts', upload.single('image'), (req, res) => {
     const {title, description, authorId, ideaId, topicId} = req.body;
     const rate = 0
-    const imagePath = req.file.path;
-    connection.query('INSERT INTO posts (title, description, authorId, ideaId, topicId, rate, imagePath) VALUES (?, ?, ?, ?, ?, ?, ?)', [title, description, authorId, ideaId, topicId, rate, imagePath], (err, result) => {
-        if (err) {
-            console.error('Ошибка выполнения запроса:', err);
-            res.status(500).send('Ошибка сервера');
-        } else {
-            const insertedPostId = result.insertId;
-            res.json({id: insertedPostId, title, description, authorId, ideaId, topicId, rate, imagePath});
+    var imagePath;
+    var file;
+    console.log(req.file.path);
+    fs.readFile(req.file.path, function (err, data) {
+        if (err)
+            console.log(err);
+        else {
+            imageKit.upload({
+                file: data,
+                fileName: req.file.filename,
+                folder: 'pallete_posts'
+            }, function (err, response) {
+                if (err) {
+                    // res.status(500).json({
+                    //     status: "failed",
+                    //     message: "An error occured during file upload. Please try again."
+                    // })
+                    console.log("Fail");
+                    res.status(200);
+                } else {
+                    console.log(response.url)
+                    imagePath = response.url
+                    connection.query('INSERT INTO posts (title, description, authorId, ideaId, topicId, rate, imagePath) VALUES (?, ?, ?, ?, ?, ?, ?)', [title, description, authorId, ideaId, topicId, rate, imagePath], (err, result) => {
+                        if (err) {
+                            console.error('Ошибка выполнения запроса:', err);
+                            res.status(500).send('Ошибка сервера');
+                        } else {
+                            const insertedPostId = result.insertId;
+                            res.json({postId: insertedPostId, title, description, authorId, ideaId, topicId, rate, imagePath});
+                        }
+                    });
+                }
+            })
         }
-    });
+    })
 });
 
 
@@ -223,13 +290,22 @@ app.delete('/api/posts/:id', (req, res) => {
 //update post by id
 app.put('/api/posts/:id', (req, res) => {
     const postId = req.params.id;
-    const {title, description, authorId, ideaId, topicId, rate, imagePath} = req.body;
-    connection.query('UPDATE posts SET title = ?, description = ?, authorId = ?, ideaId = ?, topicId = ?, rate = ?, imagePath = ? WHERE id = ?', [title, description, authorId, ideaId, topicId, rate, imagePath, postId], (err, result) => {
+    const {title, description, ideaId, topicId} = req.body;
+    connection.query('UPDATE posts SET title = ?, description = ?, ideaId = ?, topicId = ? WHERE postId = ?', [title, description, ideaId, topicId, postId], (err, result) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
-            res.sendStatus(200);
+            console.log({result});
+            connection.query('SELECT * FROM posts WHERE postId=?', [postId], (err, result) => {
+                if (err) {
+                    console.error('Ошибка выполнения запроса:', err);
+                    res.status(500).send('Ошибка сервера');
+                } else {
+                    console.log(result)
+                    res.json(result[0])
+                }
+            })
         }
     });
 });
@@ -353,7 +429,17 @@ app.get('/api/comments/:id', (req, res) => {
 });
 
 //get all comments by postId
-app.get('/api/comments_by_post')
+app.get('/api/comments/post/:id', (req, res) => {
+    const postId = req.params.id
+    connection.query('SELECT * FROM comments WHERE postId=?', [postId], (err, results) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+            res.status(500).send('Ошибка сервера');
+        } else {
+            res.json(results);
+        }
+    })
+})
 
 // Add new comment
 app.post('/api/comments', (req, res) => {
@@ -392,11 +478,20 @@ app.put('/api/ideas/:id', (req, res) => {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
-            res.sendStatus(200);
+            res.json({result});
         }
     });
 });
 
 //-------------------------------------------------------------------------------------------------------------------------------------
-
+app.get('/api/topics', (req, res) => {
+    connection.query('SELECT * FROM topics', (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+            res.status(500).send('Ошибка сервера');
+        } else {
+            res.json(result)
+        }
+    })
+})
 app.listen(3000, () => console.log('Server started on port 3000...'));
