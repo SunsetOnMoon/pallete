@@ -33,8 +33,8 @@ class IdeaServiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val manager = LinearLayoutManager(activity)
-//        binding.rvIdeas.layoutManager = manager
+        val manager = LinearLayoutManager(activity)
+        binding.rvIdeas.layoutManager = manager
         adapter = IdeaAdapter()
         binding.rvIdeas.adapter = adapter
 //        Log.d("Adapter", adapter.data.toString())

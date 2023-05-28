@@ -52,6 +52,10 @@ class EditIdeaFragment : Fragment() {
             adapter.setColorsData(it)
             Log.d("Adapter", it.toString())
         })
+
+        viewModel.idea.observe(viewLifecycleOwner, Observer {
+            viewModel.setColors()
+        })
         binding.btnGenerate.setOnClickListener {
             viewModel.generate()
         }

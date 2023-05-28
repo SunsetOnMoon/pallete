@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.pallete.common.Common
 import com.example.pallete.models.Comment
 import com.example.pallete.models.idea.Idea
+import com.example.pallete.models.idea.NewIdea
 import com.example.pallete.models.post.Post
 import com.example.pallete.models.post.PostSearch
 import com.example.pallete.models.post.PostUpdate
@@ -96,6 +97,44 @@ class RetrofitServicesInteractorImpl(
                 emitter.onSuccess(response)
             } else {
                 emitter.onError(RuntimeException("Can't get user ideas"))
+            }
+        }
+    }
+
+    override fun setIdeaColors(ideaId: Int, color: String): Single<Boolean> {
+        return Single.create { emitter ->
+            val response = retrofitServices.setIdeaColors(ideaId, color).execute()
+
+            if (response.isSuccessful) {
+                if (response.code() == 200)
+                    emitter.onSuccess(true)
+                else
+                    emitter.onSuccess(false)
+            } else {
+                emitter.onError(RuntimeException("Can't set color"))
+            }
+        }
+    }
+
+    override fun addIdea(
+        name: String,
+        description: String?,
+        topicId: Int,
+        userId: Int
+    ): Single<Idea> {
+        return Single.create { emitter ->
+            val result = retrofitServices.addIdea(NewIdea(
+                name = name,
+                description = description,
+                topicId = topicId,
+                userId = userId
+            )).execute()
+
+            if (result.isSuccessful) {
+                val response = result.body()!!
+                emitter.onSuccess(response)
+            } else {
+                emitter.onError(RuntimeException("Can't add idea"))
             }
         }
     }

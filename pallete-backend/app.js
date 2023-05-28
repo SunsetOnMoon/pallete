@@ -355,11 +355,24 @@ app.post('/api/ideas', (req, res) => {
     });
 });
 
+app.post('/api/colors/', (req, res) => {
+    const {ideaId, color} = req.body
+    connection.query('INSERT INTO ideacolors (ideaId, color) VALUES (?, ?)', [ideaId, color], (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения запроса:', err);
+            res.status(500).send('Ошибка сервера');
+        } else {
+            console.log({result})
+            res.sendStatus(200).message('Success');
+        }
+    })
+})
+
 
 //delete idea by id
 app.delete('/api/ideas/:id', (req, res) => {
     const ideaId = req.params.id;
-    connection.query('DELETE FROM ideas WHERE id = ?', [ideaId], (err, result) => {
+    connection.query('DELETE FROM ideas WHERE ideaId = ?', [ideaId], (err, result) => {
         if (err) {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');

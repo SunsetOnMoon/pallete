@@ -2,6 +2,7 @@ package com.example.pallete.retrofitservices
 
 import com.example.pallete.models.Comment
 import com.example.pallete.models.idea.Idea
+import com.example.pallete.models.idea.NewIdea
 import com.example.pallete.models.post.Post
 import com.example.pallete.models.post.PostSearch
 import com.example.pallete.models.post.PostUpdate
@@ -35,7 +36,14 @@ interface RetrofitServices {
     @GET("/api/ideas/user/{id}")
     fun getUserIdeas(@Path("id") userId: Int): Call<List<Idea>>
 
+    @POST("/api/ideas")
+    fun addIdea(@Body newIdea: NewIdea): Call<Idea>
 
+    @POST("/api/colors")
+    fun setIdeaColors(@Body ideaId: Int, color: String): Call<Boolean>
+
+    @DELETE("/api/ideas/{id}")
+    fun deleteIdea(@Path("id") ideaId: Int): Call<Boolean>
     //-------------------------POSTS----------------------------------------
     @GET("/api/posts")
     fun getAllPosts(): Call<List<Post>>

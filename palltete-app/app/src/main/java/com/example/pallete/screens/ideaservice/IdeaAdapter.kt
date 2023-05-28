@@ -26,7 +26,13 @@ class IdeaAdapter: RecyclerView.Adapter<IdeaAdapter.IdeaViewHolder>() {
 
         with(holder.binding) {
             txtName.text = idea.name
+
+            btnClose.setOnClickListener {
+
+            }
         }
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
