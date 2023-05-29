@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_feedFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_gallery_fragment_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile_fragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_profileFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/idea_service_fragment"
@@ -99,6 +105,28 @@
             app:destination="@id/registrationFragment" />
         <action
             android:id="@+id/action_loginFragment_to_gallery_fragment"
+            app:destination="@id/gallery_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.example.pallete.screens.postcreate.CreatePostFragment"
+        android:label="CreatePostFragment" >
+        <action
+            android:id="@+id/action_createPostFragment_to_profile_fragment"
+            app:destination="@id/profile_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.example.pallete.screens.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="com.example.pallete.screens.filters.FiltersFragment"
+        android:label="Filter"
+        tools:layout="@layout/fragment_filters">
+        <action
+            android:id="@+id/action_filtersFragment_to_gallery_fragment"
             app:destination="@id/gallery_fragment" />
     </fragment>
 </navigation>

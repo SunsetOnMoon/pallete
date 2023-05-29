@@ -3,6 +3,7 @@ package com.example.pallete.screens.postdetail
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.pallete.auth.AuthManager
 import com.example.pallete.interactors.RetrofitServicesInteractor
 import com.example.pallete.interactors.RetrofitServicesInteractorImpl
 import com.example.pallete.models.Comment
@@ -15,7 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class PostDetailViewModel : ViewModel() {
     val post: MutableLiveData<Post> = MutableLiveData()
     val authorName: MutableLiveData<String> = MutableLiveData()
-    val comments: MutableLiveData<List<Comment>> = MutableLiveData()
+    val comments: MutableLiveData<MutableList<Comment>> = MutableLiveData()
     val commentators: MutableLiveData<List<User>> = MutableLiveData()
 
     private val retrofitServicesInteractor: RetrofitServicesInteractor = RetrofitServicesInteractorImpl()
@@ -42,11 +43,20 @@ class PostDetailViewModel : ViewModel() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({pair ->
-                comments.value = pair.first!!
+                comments.value = pair.first!!.toMutableList()
                 commentators.value = pair.second!!
             },
             {
 
             })
+    }
+
+    fun addComment(comment: String) {
+        comments.value?.add(
+            Comment(
+            comment,
+            AuthManager.getUser().userId,
+            PostManager.getPost().postId
+        ))
     }
 }

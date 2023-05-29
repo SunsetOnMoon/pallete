@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pallete.MAIN
 import com.example.pallete.R
 import com.example.pallete.databinding.FragmentFeedBinding
+import com.example.pallete.posts.FilterPostsManager
 
 class FeedFragment : Fragment() {
     lateinit var binding: FragmentFeedBinding
@@ -48,6 +50,11 @@ class FeedFragment : Fragment() {
             adapter.setUserData(it)
 
         })
+
+        binding.btnFilter.setOnClickListener {
+            FilterPostsManager.setPosts(viewModel.posts.value!!)
+            MAIN.navController.navigate(R.id.action_gallery_fragment_to_filtersFragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

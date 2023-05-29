@@ -1,5 +1,6 @@
 package com.example.pallete.screens.ideaservice
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class IdeaServiceFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val manager = LinearLayoutManager(activity)
@@ -47,6 +49,18 @@ class IdeaServiceFragment : Fragment() {
         binding.btnCreate.setOnClickListener {
             MAIN.navController.navigate(R.id.action_idea_service_fragment_to_editIdeaFragment)
         }
+
+        adapter.ideaForDelete.observe(viewLifecycleOwner, Observer {
+            Log.d("Clicked", it.ideaId.toString())
+            viewModel.deleteIdea(it.ideaId)
+        })
+
+//        viewModel.deleted.observe(viewLifecycleOwner, Observer {
+//            if (it == true) {
+//                Log.d("Deleted", "delete")
+//                viewModel.load()
+//            }
+//        })
     }
 
 }

@@ -18,6 +18,7 @@ interface RetrofitServicesInteractor {
     fun getUserIdeas(userId: Int): Single<List<Idea>>
     fun setIdeaColors(ideaId: Int, color: String): Single<Boolean>
     fun addIdea(name: String, description: String?, topicId: Int, userId: Int): Single<Idea>
+    fun deleteIdea(ideaId: Int): Single<Boolean>
 
     fun getAllPosts(): Single<List<Post>>
     fun getUserPosts(authorId: Int): Single<List<Post>>

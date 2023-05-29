@@ -28,6 +28,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
+
         return binding.root
     }
 
@@ -57,6 +58,10 @@ class ProfileFragment : Fragment() {
 
         binding.btnEdit.setOnClickListener {
             MAIN.navController.navigate(R.id.action_profileFragment_to_editProfileFragment)
+        }
+
+        binding.btnCreate.setOnClickListener {
+            MAIN.navController.navigate(R.id.action_profile_fragment_to_createPostFragment)
         }
     }
 }

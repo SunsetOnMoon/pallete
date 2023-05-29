@@ -13,8 +13,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class IdeaServiceViewModel : ViewModel() {
     private val retrofitServicesInteractor: RetrofitServicesInteractor = RetrofitServicesInteractorImpl()
     val ideas: MutableLiveData<List<Idea>> = MutableLiveData()
+    val deleted: MutableLiveData<Boolean> = MutableLiveData()
 
     init {
+        load()
+    }
+
+    fun load() {
         val userId = AuthManager.getUser().userId
         val disposable = retrofitServicesInteractor.getUserIdeas(userId)
             .subscribeOn(Schedulers.io())
@@ -25,6 +30,17 @@ class IdeaServiceViewModel : ViewModel() {
             }, {
 
             })
+    }
+
+    fun deleteIdea(ideaId: Int) {
+       val disposable = retrofitServicesInteractor.deleteIdea(ideaId)
+           .subscribeOn(Schedulers.io())
+           .observeOn(AndroidSchedulers.mainThread())
+           .subscribe({ isDeleted ->
+               load()
+           }, {
+
+           })
     }
 
 }

@@ -253,6 +253,18 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
     })
 });
 
+app.post('/api/posts/filter', (req, res) => {
+   const topicId = req.body
+   connection.query('SELECT * FROM posts WHERE topicId=?', [topicId], (err, results) => {
+       if (err) {
+           console.error('Ошибка выполнения запроса:', err);
+           res.status(500).send('Ошибка сервера')
+       } else {
+           res.json(results);
+       }
+   })
+});
+
 
 //delete post by id
 app.delete('/api/posts/:id', (req, res) => {
@@ -377,6 +389,7 @@ app.delete('/api/ideas/:id', (req, res) => {
             console.error('Ошибка выполнения запроса:', err);
             res.status(500).send('Ошибка сервера');
         } else {
+            console.log(result);
             res.sendStatus(200);
         }
     });

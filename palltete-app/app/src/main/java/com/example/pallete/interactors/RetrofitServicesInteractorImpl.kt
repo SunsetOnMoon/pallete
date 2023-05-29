@@ -139,6 +139,20 @@ class RetrofitServicesInteractorImpl(
         }
     }
 
+    override fun deleteIdea(ideaId: Int): Single<Boolean> {
+        return Single.create { emitter ->
+            val result = retrofitServices.deleteIdea(ideaId).execute()
+
+            if (result.isSuccessful) {
+                Log.d("IsDeleted", "deleted")
+                emitter.onSuccess(true)
+
+            } else {
+                emitter.onError(RuntimeException("Can't delete idea"))
+            }
+        }
+    }
+
     override fun getAllPosts(): Single<List<Post>> {
         return Single.create { emitter ->
             val result = retrofitServices.getAllPosts().execute()
